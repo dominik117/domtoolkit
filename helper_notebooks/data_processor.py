@@ -1,3 +1,4 @@
+from telnetlib import STATUS
 import pandas as pd
 import numpy as np
 from datetime import datetime
@@ -15,7 +16,7 @@ def get_litter_columns(df):
     return litter_columns
 
 def clean_df(df):
-    not_needed_columns = ['value.Vehicle_Mode', 'speed', '_id',]
+    not_needed_columns = ['Unnamed: 0', 'value.Vehicle_Mode', 'speed', '_id',]
     df.drop(not_needed_columns, axis=1, inplace=True, errors='ignore')
     df.rename(columns = {'suitcase.id':'suitcase_id', 'date.utc':'date_utc', 
                         'edge.id':'edge_id', 'edge.osmid':'edge_osmid', 
@@ -27,6 +28,7 @@ def clean_df(df):
     df[litter_columns] = df[litter_columns].fillna(0)
     df[litter_columns] = df[litter_columns].astype(np.int64) 
     df['total_litter'] = df[litter_columns].sum(axis=1)
+    df['edge_osmid'] = df['edge_osmid'].astype(int)
     return df
 
 def aggregate_df(df, method='sum'):
@@ -79,7 +81,7 @@ def make_edge_length_feature(df):
     def haversine_distance(lat1, lon1, lat2, lon2):
         lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
         dlon = lon2 - lon1 
-        dlat = lat2 - lat1 
+        dlat = lat2 - lat1
         a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
         c = 2 * asin(sqrt(a)) 
         EQUATORIAL_RADIUS = 6378 # Radius of earth in kilometers
