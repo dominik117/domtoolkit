@@ -1,0 +1,11 @@
+# local package
+-e .
+
+# external requirements
+dill
+click
+Sphinx
+coverage
+awscliv2
+flake8
+python-dotenv>=0.5.1

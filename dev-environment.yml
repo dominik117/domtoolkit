@@ -1,0 +1,12 @@
+name: MLOps-dev
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python==3.10.12
+  - ipykernel
+  - pip
+  - scikit-learn
+  - pandas
+  - pip
+prefix: /home/user/anaconda3/envs/MLOps-dev
